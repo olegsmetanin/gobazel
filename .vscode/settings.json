@@ -1,6 +1,10 @@
 {
   "files.watcherExclude": {
     "**/.git/objects/**": true,
-    "**/bazel-*/**": true
+    "**/bazel-bin/**": true,
+    "**/bazel-genfines/**": true,
+    "**/bazel-gobazel/**": true,
+    "**/bazel-out/**": true,
+    "**/bazel-testlogs/**": true
   }
 }
