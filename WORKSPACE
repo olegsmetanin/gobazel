@@ -19,13 +19,13 @@ http_archive(
     sha256 = "7d490aadff9b5262e5251fa69427ab2ffd1548422467cb9f9e1d110e2c36f0fa",
 )
 
-BAZEL_BUILDTOOLS_VERSION = "82b21607e00913b16fe1c51bec80232d9d6de31c"
+BAZEL_BUILDTOOLS_VERSION = "49a6c199e3fbf5d94534b2771868677d3f9c6de9"
 
 http_archive(
     name = "com_github_bazelbuild_buildtools",
     url = "https://github.com/bazelbuild/buildtools/archive/%s.zip" % BAZEL_BUILDTOOLS_VERSION,
     strip_prefix = "buildtools-%s" % BAZEL_BUILDTOOLS_VERSION,
-    sha256 = "edb24c2f9c55b10a820ec74db0564415c0cf553fa55e9fc709a6332fb6685eff",
+    sha256 = "edf39af5fc257521e4af4c40829fffe8fba6d0ebff9f4dd69a6f8f1223ae047b",
 )
 
 # Runs the TypeScript compiler
@@ -70,16 +70,10 @@ http_archive(
     urls = ["https://github.com/google/protobuf/archive/5e8916e881c573c5d83980197a6f783c132d4276.zip"],
 )
 
-http_archive(
-    name = "io_bazel_rules_appengine",
-    sha256 = "d1fbc9a48332cc00b56d66751b5eb911ac9a88e820af7a2316a9b5ed4ee46d0b",
-    strip_prefix = "rules_appengine-0.0.7",
-    url = "https://github.com/bazelbuild/rules_appengine/archive/0.0.7.tar.gz",
-)
-
 
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
 
+check_bazel_version("0.17.1")
 node_repositories(package_json = ["//:package.json"])
 
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")
