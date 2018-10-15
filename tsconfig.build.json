@@ -6,9 +6,6 @@
             "es5",
             "es2015"
         ],
-        "experimentalDecorators": true,
-        "baseUrl": "src",
-        "moduleResolution": "node",
-        "module": "commonjs"
+        "experimentalDecorators": true
     }
   }

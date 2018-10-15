@@ -1,3 +1,5 @@
 import * as React from 'react'
 
-export const Qwe = () => <div>Qwe</div>
+import { ut } from 'common/utils'
+
+export const Qwe = () => <div>Qwe{ut}</div>
