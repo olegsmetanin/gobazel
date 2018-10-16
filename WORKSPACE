@@ -1,86 +1,75 @@
 http_archive(
-    name = "build_bazel_rules_nodejs",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/archive/0.11.3.zip"],
-    strip_prefix = "rules_nodejs-0.11.3",
-    sha256 = "e8842fa5f5e38f2c826167ff94323d4b5aabd13217cee867d971d6f860cfd730"
+    name = "build_bazel_rules_typescript",
+    sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
+    strip_prefix = "rules_typescript-0.17.0",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.17.0.zip",
 )
+
+load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
+
+rules_typescript_dependencies()
 
 http_archive(
-    name = "bazel_skylib",
-    urls = ["https://github.com/bazelbuild/bazel-skylib/archive/0.3.1.zip"],
-    strip_prefix = "bazel-skylib-0.3.1",
-    sha256 = "95518adafc9a2b656667bbf517a952e54ce7f350779d0dd95133db4eb5c27fb1",
+    name = "bazel_toolchains",
+    sha256 = "c3b08805602cd1d2b67ebe96407c1e8c6ed3d4ce55236ae2efe2f1948f38168d",
+    strip_prefix = "bazel-toolchains-5124557861ebf4c0b67f98180bff1f8551e0b421",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/5124557861ebf4c0b67f98180bff1f8551e0b421.tar.gz",
+        "https://github.com/bazelbuild/bazel-toolchains/archive/5124557861ebf4c0b67f98180bff1f8551e0b421.tar.gz",
+    ],
 )
 
-http_archive(
-    name = "io_bazel_rules_webtesting",
-    url = "https://github.com/bazelbuild/rules_webtesting/archive/0.2.1.zip",
-    strip_prefix = "rules_webtesting-0.2.1",
-    sha256 = "7d490aadff9b5262e5251fa69427ab2ffd1548422467cb9f9e1d110e2c36f0fa",
-)
-
+# This commit matches the version of buildifier in angular/ngcontainer
+# If you change this, also check if it matches the version in the angular/ngcontainer
+# version in /.circleci/config.yml
 BAZEL_BUILDTOOLS_VERSION = "49a6c199e3fbf5d94534b2771868677d3f9c6de9"
 
 http_archive(
     name = "com_github_bazelbuild_buildtools",
-    url = "https://github.com/bazelbuild/buildtools/archive/%s.zip" % BAZEL_BUILDTOOLS_VERSION,
-    strip_prefix = "buildtools-%s" % BAZEL_BUILDTOOLS_VERSION,
     sha256 = "edf39af5fc257521e4af4c40829fffe8fba6d0ebff9f4dd69a6f8f1223ae047b",
+    strip_prefix = "buildtools-%s" % BAZEL_BUILDTOOLS_VERSION,
+    url = "https://github.com/bazelbuild/buildtools/archive/%s.zip" % BAZEL_BUILDTOOLS_VERSION,
 )
 
-# Runs the TypeScript compiler
+# Fetching the Bazel source code allows us to compile the Skylark linter
 http_archive(
-    name = "build_bazel_rules_typescript",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.15.0.zip",
-    strip_prefix = "rules_typescript-0.15.0",
-    sha256 = "1aa75917330b820cb239b3c10a936a10f0a46fe215063d4492dd76dc6e1616f4",
-)
-
-local_repository(
-    name = "build_bazel_rules_typescript",
-    path = "node_modules/@bazel/typescript",
-)
-
-# Some of the TypeScript tooling is written in Go.
-http_archive(
-    name = "io_bazel_rules_go",
-    url = "https://github.com/bazelbuild/rules_go/releases/download/0.14.0/rules_go-0.14.0.tar.gz",
-    sha256 = "5756a4ad75b3703eb68249d50e23f5d64eaf1593e886b9aa931aa6e938c4e301",
+    name = "io_bazel",
+    sha256 = "ace8cced3b21e64a8fdad68508e9b0644201ec848ad583651719841d567fc66d",
+    strip_prefix = "bazel-0.17.1",
+    url = "https://github.com/bazelbuild/bazel/archive/0.17.1.zip",
 )
 
 http_archive(
-    name = "com_google_protobuf",
-    sha256 = "cef7f1b5a7c5fba672bec2a319246e8feba471f04dcebfe362d55930ee7c1c30",
-    strip_prefix = "protobuf-3.5.0",
-    urls = ["https://github.com/google/protobuf/archive/v3.5.0.zip"],
+    name = "io_bazel_skydoc",
+    sha256 = "7bfb5545f59792a2745f2523b9eef363f9c3e7274791c030885e7069f8116016",
+    strip_prefix = "skydoc-fe2e9f888d28e567fef62ec9d4a93c425526d701",
+    # TODO: switch to upstream when https://github.com/bazelbuild/skydoc/pull/103 is merged
+    url = "https://github.com/alexeagle/skydoc/archive/fe2e9f888d28e567fef62ec9d4a93c425526d701.zip",
 )
 
-maven_jar(
-    name = "protobuf_java_format",
-    artifact = "com.googlecode.protobuf-java-format:protobuf-java-format:1.4",
-    sha1 = "b8163b6940102c1808814471476f5293dfb419df",
+#
+# Load and install our dependencies downloaded above.
+#
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
+
+check_bazel_version("0.17.0", """
+If you are on a Mac and using Homebrew, there is a breaking change to the installation in Bazel 0.16
+See https://blog.bazel.build/2018/08/22/bazel-homebrew.html
+""")
+
+node_repositories(
+    node_version = "10.9.0",
+    package_json = ["//:package.json"],
+    preserve_symlinks = True,
+    yarn_version = "1.9.2",
 )
-
-# java_lite_proto_library rules implicitly depend on @com_google_protobuf_javalite//:javalite_toolchain,
-# which is the JavaLite proto runtime (base classes and common utilities).
-http_archive(
-    name = "com_google_protobuf_javalite",
-    sha256 = "d8a2fed3708781196f92e1e7e7e713cf66804bd2944894401057214aff4f468e",
-    strip_prefix = "protobuf-5e8916e881c573c5d83980197a6f783c132d4276",
-    urls = ["https://github.com/google/protobuf/archive/5e8916e881c573c5d83980197a6f783c132d4276.zip"],
-)
-
-
-load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories", "yarn_install")
-
-check_bazel_version("0.17.1")
-node_repositories(package_json = ["//:package.json"])
 
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")
 
 go_rules_dependencies()
-go_register_toolchains()
 
+go_register_toolchains()
 
 load("@build_bazel_rules_typescript//:defs.bzl", "ts_setup_workspace")
 
