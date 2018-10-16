@@ -36,8 +36,9 @@ go_proto_library(
     ],
     importpath = "github.com/olegsmetanin/gobazel/publicapi",
     proto = ":publicapi",
+    visibility = ["//visibility:public"],
     deps = [
-        "@grpc_ecosystem_grpc_gateway//protoc-gen-swagger/options:options_proto",
+        #"@grpc_ecosystem_grpc_gateway//protoc-gen-swagger/options:options_proto",
         "@com_github_golang_protobuf//ptypes/duration:go_default_library",
         "@com_github_golang_protobuf//ptypes/empty:go_default_library",
         "@com_github_golang_protobuf//ptypes/timestamp:go_default_library",

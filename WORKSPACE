@@ -49,49 +49,56 @@ http_archive(
     url = "https://github.com/grpc-ecosystem/grpc-gateway/archive/v1.5.1.tar.gz",
 )
 
-
-# load("@bazel_gazelle//:deps.bzl", "go_repository")
-
-# # Also define in Gopkg.toml
-# go_repository(
-#     name = "org_golang_google_genproto",
-#     commit = "383e8b2c3b9e36c4076b235b32537292176bae20",
-#     importpath = "google.golang.org/genproto",
-# )
-
-# # Also define in Gopkg.toml
-# go_repository(
-#     name = "com_github_rogpeppe_fastuuid",
-#     commit = "6724a57986aff9bff1a1770e9347036def7c89f6",
-#     importpath = "github.com/rogpeppe/fastuuid",
-# )
-
-# # Also define in Gopkg.toml
-# go_repository(
-#     name = "com_github_go_resty_resty",
-#     commit = "f8815663de1e64d57cdd4ee9e2b2fa96977a030e",
-#     importpath = "github.com/go-resty/resty",
-# )
-
-# # Also define in Gopkg.toml
-# go_repository(
-# 	name = "com_github_ghodss_yaml",
-# 	commit = "0ca9ea5df5451ffdf184b4428c902747c2c11cd7",
-# 	importpath = "github.com/ghodss/yaml",
-# )
-
-# # Also define in Gopkg.toml
-# go_repository(
-# 	name = "in_gopkg_yaml_v2",
-# 	commit = "eb3733d160e74a9c7e442f435eb3bea458e1d19f",
-# 	importpath = "gopkg.in/yaml.v2",
-# )
-
 # Load typescript dependencies
 load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
 
 rules_typescript_dependencies()
 
+
+
+load("@bazel_gazelle//:deps.bzl", "go_repository")
+
+
+# go_repository(
+#     name = "com_github_golang_protobuf",
+#     importpath = "github.com/golang/protobuf",
+#     tag = "v1.2.0",
+# )
+
+# Also define in Gopkg.toml
+go_repository(
+    name = "org_golang_google_genproto",
+    commit = "383e8b2c3b9e36c4076b235b32537292176bae20",
+    importpath = "google.golang.org/genproto",
+)
+
+# Also define in Gopkg.toml
+go_repository(
+    name = "com_github_rogpeppe_fastuuid",
+    commit = "6724a57986aff9bff1a1770e9347036def7c89f6",
+    importpath = "github.com/rogpeppe/fastuuid",
+)
+
+# Also define in Gopkg.toml
+go_repository(
+    name = "com_github_go_resty_resty",
+    commit = "f8815663de1e64d57cdd4ee9e2b2fa96977a030e",
+    importpath = "github.com/go-resty/resty",
+)
+
+# Also define in Gopkg.toml
+go_repository(
+	name = "com_github_ghodss_yaml",
+	commit = "0ca9ea5df5451ffdf184b4428c902747c2c11cd7",
+	importpath = "github.com/ghodss/yaml",
+)
+
+# Also define in Gopkg.toml
+go_repository(
+	name = "in_gopkg_yaml_v2",
+	commit = "eb3733d160e74a9c7e442f435eb3bea458e1d19f",
+	importpath = "gopkg.in/yaml.v2",
+)
 
 # Load nodejs functions
 load("@build_bazel_rules_nodejs//:defs.bzl", "check_bazel_version", "node_repositories")
