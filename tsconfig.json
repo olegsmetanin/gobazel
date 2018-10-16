@@ -7,8 +7,8 @@
             "es2015"
         ],
         "experimentalDecorators": true,
-        "baseUrl": "src",
+        "baseUrl": ".",
         "moduleResolution": "node",
         "module": "commonjs"
     }
-  }
+}

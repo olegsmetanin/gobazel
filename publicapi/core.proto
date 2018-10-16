@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option go_package = "github.com/olegsmetanin/gobazel/publicapi";
+
+message Record {
+  int64 value = 1;
+}
+
+service CoreService {
+  rpc Echo(Record) returns (Record) {}
+}

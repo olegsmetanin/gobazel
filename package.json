@@ -7,9 +7,9 @@
     "concurrently": "3.5.1"
   },
   "scripts": {
-    "start-frontend": "ibazel run //src/web:devserver",
-    "start-backend": "ibazel run //src/backend:server",
-    "build-frontend": "bazel build //src/web:devserver",
+    "start-frontend": "ibazel run //web:devserver",
+    "start-backend": "ibazel run //backend:server",
+    "build-frontend": "bazel build //web:devserver",
     "start": "concurrently \"npm run start-frontend\" \"npm run start-backend\" "
   },
   "dependencies": {

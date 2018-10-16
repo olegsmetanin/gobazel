@@ -1,0 +1,60 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
+load("@io_bazel_rules_go//proto:compiler.bzl", "go_proto_compiler")
+load("@grpc_ecosystem_grpc_gateway//protoc-gen-swagger:defs.bzl", "protoc_gen_swagger")
+
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_proto_library", "ts_library")
+
+# gazelle:exclude auth.pb.gw.go
+# gazelle:exclude core.pb.gw.go
+
+proto_library(
+    name = "publicapi",
+    srcs = ["auth.proto", "core.proto"],
+    deps = [
+        "@grpc_ecosystem_grpc_gateway//protoc-gen-swagger/options:options_proto",
+        "@com_github_googleapis_googleapis//google/api:api_proto",
+        "@com_google_protobuf//:duration_proto",
+        "@com_google_protobuf//:empty_proto",
+        "@com_google_protobuf//:timestamp_proto",
+        "@com_google_protobuf//:wrappers_proto",
+    ],
+)
+
+protoc_gen_swagger(
+    name = "publicapi_protoc_gen_swagger",
+    proto = ":publicapi",
+)
+
+go_proto_library(
+    name = "publicapi_go_proto",
+    compilers = [
+        "@io_bazel_rules_go//proto:go_grpc",
+        "@grpc_ecosystem_grpc_gateway//protoc-gen-grpc-gateway:go_gen_grpc_gateway",
+    ],
+    importpath = "github.com/olegsmetanin/gobazel/publicapi",
+    proto = ":publicapi",
+    deps = [
+        "@grpc_ecosystem_grpc_gateway//protoc-gen-swagger/options:options_proto",
+        "@com_github_golang_protobuf//ptypes/duration:go_default_library",
+        "@com_github_golang_protobuf//ptypes/empty:go_default_library",
+        "@com_github_golang_protobuf//ptypes/timestamp:go_default_library",
+        "@com_github_golang_protobuf//ptypes/wrappers:go_default_library",
+        "@com_github_googleapis_googleapis//google/api:go_default_library",
+    ],
+)
+
+ts_proto_library(
+    name = "publicapi_ts_proto",
+    deps = [":publicapi"],
+)
+
+ts_library(
+    module_name = "publicapi",
+    name = "publicapi_ts",
+    srcs = glob(["index.ts"]),
+    tsconfig = "//:tsconfig.build.json",
+    deps = [":publicapi_ts_proto"]
+)

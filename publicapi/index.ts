@@ -1,0 +1,1 @@
+export {IUser} from 'publicapi/publicapi_ts_proto'

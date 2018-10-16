@@ -7,7 +7,8 @@ ts_library(
     srcs = ["index.tsx"],
     tsconfig = "//:tsconfig.build.json",
     deps = [
-      "//src/common:src",
+      "//common:src",
+      "//publicapi:publicapi_ts",
     ]
 )
 
