@@ -18,3 +18,5 @@ filegroup(
         "node_modules/react-dom/**",
     ]),
 )
+
+# gazelle proto:disable_global

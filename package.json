@@ -8,9 +8,10 @@
   },
   "scripts": {
     "start-frontend": "ibazel run //web:devserver",
-    "start-backend": "ibazel run //backend:server",
+    "start-backend": "ibazel run //backend/cmd/service:service",
     "build-frontend": "bazel build //web:devserver",
-    "start": "concurrently \"npm run start-frontend\" \"npm run start-backend\" "
+    "build-backend": "bazel build //backend/cmd/service:service",
+    "start": "npm run build-frontend && npm run build-backend && concurrently \"npm run start-frontend\" \"npm run start-backend\""
   },
   "dependencies": {
     "protobufjs": "5.0.3",

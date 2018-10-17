@@ -9,6 +9,7 @@ load("@build_bazel_rules_typescript//:defs.bzl", "ts_proto_library", "ts_library
 
 # gazelle:exclude auth.pb.gw.go
 # gazelle:exclude core.pb.gw.go
+# gazelle proto:disable_global
 
 proto_library(
     name = "publicapi",
@@ -37,12 +38,16 @@ go_proto_library(
     importpath = "github.com/olegsmetanin/gobazel/publicapi",
     proto = ":publicapi",
     visibility = ["//visibility:public"],
+    # GoLink: warning: package "github.com/golang/protobuf/protoc-gen-go/descriptor" is provided by more than one rule:
+    #     @io_bazel_rules_go//proto/wkt:descriptor_go_proto
+    #     @com_github_golang_protobuf//protoc-gen-go/descriptor:go_default_library
+    # https://github.com/bazelbuild/rules_go/issues/1629
+    # https://github.com/bazelbuild/rules_go/issues/1548
     deps = [
-        #"@grpc_ecosystem_grpc_gateway//protoc-gen-swagger/options:options_proto",
-        "@com_github_golang_protobuf//ptypes/duration:go_default_library",
-        "@com_github_golang_protobuf//ptypes/empty:go_default_library",
-        "@com_github_golang_protobuf//ptypes/timestamp:go_default_library",
-        "@com_github_golang_protobuf//ptypes/wrappers:go_default_library",
+        # "@com_github_golang_protobuf//ptypes/duration:go_default_library",
+        # "@com_github_golang_protobuf//ptypes/empty:go_default_library",
+        # "@com_github_golang_protobuf//ptypes/timestamp:go_default_library",
+        # "@com_github_golang_protobuf//ptypes/wrappers:go_default_library",
         "@com_github_googleapis_googleapis//google/api:go_default_library",
     ],
 )

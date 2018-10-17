@@ -1,12 +1,12 @@
 package main
 import "fmt"
 import "github.com/olegsmetanin/gobazel/publicapi"
-// import proto "github.com/golang/protobuf/proto"
+import "github.com/golang/protobuf/proto"
 
 func main() {
 
-	test := publicapi.User{
-		Value: 1234,
+	test := &publicapi.User{
+		Value: *proto.Int64(678),
 	}
 	fmt.Printf("%+v\n", test)
 }

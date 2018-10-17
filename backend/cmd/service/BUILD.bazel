@@ -1,9 +1,11 @@
 package(default_visibility = ["//visibility:public"])
 
+# gazelle proto:disable_global
+
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 
 go_binary(
-    name = "backend",
+    name = "service",
     importpath = "https://github.com/olegsmetanin/gobazel/backend/cmd/service",
     srcs = ["main.go"],
     visibility = ["//visibility:public"],
