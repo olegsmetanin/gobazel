@@ -1,3 +1,5 @@
+workspace(name = "gobazel")
+
 http_archive(
     name = "build_bazel_rules_typescript",
     sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
