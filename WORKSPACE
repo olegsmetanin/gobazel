@@ -117,6 +117,15 @@ node_repositories(
     yarn_version = "1.9.2",
 )
 
+load("@build_bazel_rules_nodejs//:defs.bzl", "npm_install")
+
+npm_install(
+    name = "webnpm",
+    package_json = "//web:package.json",
+    package_lock_json = "//web:package-lock.json",
+)
+
+
 # Load golang dependencies, required by typescript (!)
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")
 
