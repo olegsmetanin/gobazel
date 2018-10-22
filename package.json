@@ -1,9 +1,7 @@
 {
   "devDependencies": {
     "@bazel/ibazel": "0.4.0",
-    "@types/react": "16.4.1",
-    "@types/react-dom": "16.0.6",
-    "typescript": "~3.1.1",
+    "typescript": "3.1.1",
     "concurrently": "3.5.1"
   },
   "scripts": {
@@ -14,8 +12,6 @@
     "start": "npm run build-frontend && npm run build-backend && concurrently \"npm run start-frontend\" \"npm run start-backend\""
   },
   "dependencies": {
-    "protobufjs": "5.0.3",
-    "react": "16.5.2",
-    "react-dom": "16.5.2"
+    "protobufjs": "5.0.3"
   }
 }

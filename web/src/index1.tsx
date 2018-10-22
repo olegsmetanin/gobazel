@@ -1,18 +1,18 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import { IUser } from 'publicapi'
-import { Qwe } from 'common'
+// import { IUser } from 'publicapi'
+// import { Qwe } from 'common'
 
-let user: IUser = {
-  value: 123
-}
+// let user: IUser = {
+//   value: 123
+// }
+
+console.log('qwe')
 
 ReactDOM.render(
   <div>
     <div>This is app</div>
-    <Qwe/>
-    <div>{JSON.stringify(user)}</div>
   </div>,
   document.getElementById('root')
 )
