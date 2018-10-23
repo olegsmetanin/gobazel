@@ -3,8 +3,9 @@
     "@bazel/ibazel": "0.4.0",
     "@types/react": "16.4.1",
     "@types/react-dom": "16.0.6",
-    "typescript": "~3.1.1",
-    "concurrently": "3.5.1"
+    "concurrently": "3.5.1",
+    "tsutils": "3.2.0",
+    "typescript": "~3.1.1"
   },
   "scripts": {
     "start-frontend": "ibazel run //web:devserver",
