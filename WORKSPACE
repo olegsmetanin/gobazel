@@ -2,9 +2,16 @@ workspace(name = "gobazel")
 
 http_archive(
     name = "build_bazel_rules_typescript",
-    sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
-    strip_prefix = "rules_typescript-0.17.0",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.17.0.zip",
+    sha256 = "28c13760f8ca9d2edadda3e707a26bd99bd9e14670eb7e693808458ab1417c25",
+    strip_prefix = "rules_typescript-0.20.1",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.20.1.zip",
+)
+
+git_repository(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "7df5904995960be72730e6e8c5e406dc9e55e531fa894c9836300a4ed1ce78d5",
+    remote = "https://github.com/bazelbuild/rules_nodejs.git",
+    tag = "0.15.1",
 )
 
 http_archive(
@@ -51,10 +58,19 @@ http_archive(
     url = "https://github.com/grpc-ecosystem/grpc-gateway/archive/v1.5.1.tar.gz",
 )
 
+
+
+
+
 # Load typescript dependencies
 load("@build_bazel_rules_typescript//:package.bzl", "rules_typescript_dependencies")
 
 rules_typescript_dependencies()
+
+
+load("@build_bazel_rules_nodejs//:package.bzl", "rules_nodejs_dependencies")
+
+rules_nodejs_dependencies()
 
 
 
@@ -111,11 +127,35 @@ See https://blog.bazel.build/2018/08/22/bazel-homebrew.html
 """)
 
 node_repositories(
-    node_version = "10.9.0",
-    package_json = ["//:package.json"],
-    preserve_symlinks = True,
-    yarn_version = "1.9.2",
+    node_version = "8.11.4",
+    yarn_version = "1.10.1",
+    node_repositories = {
+        "8.11.4-darwin_amd64": ("node-v8.11.4-darwin-x64.tar.gz", "node-v8.11.4-darwin-x64", "aa1de83b388581d0d9ec3276f4526ee67e17e0f1bc0deb5133f960ce5dc9f1ef"),
+        "8.11.4-linux_amd64": ("node-v8.11.4-linux-x64.tar.xz", "node-v8.11.4-linux-x64", "85ea7cbb5bf624e130585bfe3946e99c85ce5cb84c2aee474038bdbe912f908c"),
+        "8.11.4-windows_amd64": ("node-v8.11.4-win-x64.zip", "node-v8.11.4-win-x64", "72a21e2fcd3703994f57cf707b92e7f939df99c3e0298102e7436849e4948536"),
+    },
+    yarn_repositories = {
+        "1.10.1": ("yarn-v1.10.1.tar.gz", "yarn-v1.10.1", "97bf147cb28229e66e4e3c5733a93c851bbcb0f10fbc72696ed011774f4c6f1b"),
+    },
+    node_urls = ["https://nodejs.org/dist/v{version}/{filename}"],
+    yarn_urls = ["https://github.com/yarnpkg/yarn/releases/download/v{version}/{filename}"],
+    package_json = ["//:package.json"]
 )
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "npm_install", "yarn_install")
+
+# npm_install(
+#     name = "webnpm",
+#     package_json = "//web:package.json",
+#     package_lock_json = "//web:package-lock.json",
+# )
+
+yarn_install(
+    name = "npm",
+    package_json = "//:package.json",
+    yarn_lock = "//:yarn.lock",
+)
+
 
 # Load golang dependencies, required by typescript (!)
 load("@io_bazel_rules_go//go:def.bzl", "go_rules_dependencies", "go_register_toolchains")

@@ -1,32 +1,213 @@
-package(default_visibility = ["//visibility:public"])
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
 
-load("@build_bazel_rules_typescript//:defs.bzl", "ts_library")
-
-ts_library(
-    name = "src",
-    srcs = ["index.tsx"],
-    tsconfig = "//:tsconfig.build.json",
-    deps = [
-      "//common:src",
-      "//publicapi:publicapi_ts",
-    ]
+filegroup(
+    name = "package_json",
+    srcs = glob(["package.json"]),
 )
 
-load("@build_bazel_rules_typescript//:defs.bzl", "ts_devserver")
+filegroup(
+    name = "config_files",
+    srcs = glob(["config/**/*.js"])
+)
 
-ts_devserver(
-    name = "devserver",
-    additional_root_paths = [
-        "gobazel/node_modules/react/umd",
-        "gobazel/node_modules/react-dom/umd",
+filegroup(
+    name = "source_files",
+    srcs = glob(["src/**/*.js", "src/**/*.jsx"])
+)
+
+filegroup(
+    name = "script_files",
+    srcs = glob(["scripts/*.js"])
+)
+
+filegroup(
+    name = "public_files",
+    srcs = glob(["public/**/*"])
+)
+
+nodejs_binary(
+    name = "start",
+    visibility = ["//visibility:public"],
+    entry_point = "gobazel/web/scripts/start.js",
+    data = [
+        ":package_json",
+
+        ":config_files",
+        ":source_files",
+        ":script_files",
+        ":public_files",
+        # dependencies
+        "@npm//@babel/core",
+        "@npm//@svgr/webpack",
+        "@npm//babel-core",
+        "@npm//babel-eslint",
+        "@npm//babel-jest",
+        "@npm//babel-loader",
+        "@npm//babel-plugin-named-asset-import",
+        "@npm//babel-preset-react-app",
+        "@npm//bfj",
+        "@npm//case-sensitive-paths-webpack-plugin",
+        "@npm//chalk",
+        "@npm//css-loader",
+        "@npm//dotenv",
+        "@npm//dotenv-expand",
+        "@npm//eslint",
+        "@npm//eslint-config-react-app",
+        "@npm//eslint-loader",
+        "@npm//eslint-plugin-flowtype",
+        "@npm//eslint-plugin-import",
+        "@npm//eslint-plugin-jsx-a11y",
+        "@npm//eslint-plugin-react",
+        "@npm//file-loader",
+        "@npm//fs-extra",
+        "@npm//html-webpack-plugin",
+        "@npm//identity-obj-proxy",
+        "@npm//jest",
+        "@npm//jest-pnp-resolver",
+        "@npm//jest-resolve",
+        "@npm//mini-css-extract-plugin",
+        "@npm//optimize-css-assets-webpack-plugin",
+        "@npm//pnp-webpack-plugin",
+        "@npm//postcss-flexbugs-fixes",
+        "@npm//postcss-loader",
+        "@npm//postcss-preset-env",
+        "@npm//postcss-safe-parser",
+        "@npm//react",
+        "@npm//react-app-polyfill",
+        "@npm//react-dev-utils",
+        "@npm//react-dom",
+        "@npm//resolve",
+        "@npm//sass-loader",
+        "@npm//style-loader",
+        "@npm//terser-webpack-plugin",
+        "@npm//url-loader",
+        "@npm//webpack",
+        "@npm//webpack-dev-server",
+        "@npm//webpack-manifest-plugin",
+        "@npm//workbox-webpack-plugin",
     ],
-    port = 9999,
-    serving_path = "/bundle.min.js",
-    # entry_module = "gobazel/src/frontend/main",
-    deps = [":src"],
-    static_files = [
-        ":index.html",
-        "//:node_modules/react/umd/react.development.js",
-        "//:node_modules/react-dom/umd/react-dom.development.js"
+)
+
+nodejs_binary(
+    name = "bundle",
+    visibility = ["//visibility:public"],
+    entry_point = "bazel_cra_example/cra-example/scripts/build.js",
+    data = [
+        ":package_json",
+        ":config_files",
+        ":source_files",
+        ":script_files",
+        ":public_files",
+        # dependencies
+        "@npm//@babel/core",
+        "@npm//@svgr/webpack",
+        "@npm//babel-core",
+        "@npm//babel-eslint",
+        "@npm//babel-jest",
+        "@npm//babel-loader",
+        "@npm//babel-plugin-named-asset-import",
+        "@npm//babel-preset-react-app",
+        "@npm//bfj",
+        "@npm//case-sensitive-paths-webpack-plugin",
+        "@npm//chalk",
+        "@npm//css-loader",
+        "@npm//dotenv",
+        "@npm//dotenv-expand",
+        "@npm//eslint",
+        "@npm//eslint-config-react-app",
+        "@npm//eslint-loader",
+        "@npm//eslint-plugin-flowtype",
+        "@npm//eslint-plugin-import",
+        "@npm//eslint-plugin-jsx-a11y",
+        "@npm//eslint-plugin-react",
+        "@npm//file-loader",
+        "@npm//fs-extra",
+        "@npm//html-webpack-plugin",
+        "@npm//identity-obj-proxy",
+        "@npm//jest",
+        "@npm//jest-pnp-resolver",
+        "@npm//jest-resolve",
+        "@npm//mini-css-extract-plugin",
+        "@npm//optimize-css-assets-webpack-plugin",
+        "@npm//pnp-webpack-plugin",
+        "@npm//postcss-flexbugs-fixes",
+        "@npm//postcss-loader",
+        "@npm//postcss-preset-env",
+        "@npm//postcss-safe-parser",
+        "@npm//react",
+        "@npm//react-app-polyfill",
+        "@npm//react-dev-utils",
+        "@npm//react-dom",
+        "@npm//resolve",
+        "@npm//sass-loader",
+        "@npm//style-loader",
+        "@npm//terser-webpack-plugin",
+        "@npm//url-loader",
+        "@npm//webpack",
+        "@npm//webpack-dev-server",
+        "@npm//webpack-manifest-plugin",
+        "@npm//workbox-webpack-plugin",
+    ],
+)
+
+nodejs_binary(
+    name = "test",
+    visibility = ["//visibility:public"],
+    entry_point = "bazel_cra_example/cra-example/scripts/test.js",
+    data = [
+        ":package_json",
+        ":config_files",
+        ":source_files",
+        ":script_files",
+        ":public_files",
+        # dependencies
+        "@npm//@babel/core",
+        "@npm//@svgr/webpack",
+        "@npm//babel-core",
+        "@npm//babel-eslint",
+        "@npm//babel-jest",
+        "@npm//babel-loader",
+        "@npm//babel-plugin-named-asset-import",
+        "@npm//babel-preset-react-app",
+        "@npm//bfj",
+        "@npm//case-sensitive-paths-webpack-plugin",
+        "@npm//chalk",
+        "@npm//css-loader",
+        "@npm//dotenv",
+        "@npm//dotenv-expand",
+        "@npm//eslint",
+        "@npm//eslint-config-react-app",
+        "@npm//eslint-loader",
+        "@npm//eslint-plugin-flowtype",
+        "@npm//eslint-plugin-import",
+        "@npm//eslint-plugin-jsx-a11y",
+        "@npm//eslint-plugin-react",
+        "@npm//file-loader",
+        "@npm//fs-extra",
+        "@npm//html-webpack-plugin",
+        "@npm//identity-obj-proxy",
+        "@npm//jest",
+        "@npm//jest-pnp-resolver",
+        "@npm//jest-resolve",
+        "@npm//mini-css-extract-plugin",
+        "@npm//optimize-css-assets-webpack-plugin",
+        "@npm//pnp-webpack-plugin",
+        "@npm//postcss-flexbugs-fixes",
+        "@npm//postcss-loader",
+        "@npm//postcss-preset-env",
+        "@npm//postcss-safe-parser",
+        "@npm//react",
+        "@npm//react-app-polyfill",
+        "@npm//react-dev-utils",
+        "@npm//react-dom",
+        "@npm//resolve",
+        "@npm//sass-loader",
+        "@npm//style-loader",
+        "@npm//terser-webpack-plugin",
+        "@npm//url-loader",
+        "@npm//webpack",
+        "@npm//webpack-dev-server",
+        "@npm//webpack-manifest-plugin",
+        "@npm//workbox-webpack-plugin",
     ],
 )
