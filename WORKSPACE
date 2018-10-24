@@ -149,6 +149,6 @@ node_repositories()
 # See https://github.com/bazelbuild/rules_nodejs#dependencies for more info.
 npm_install(
   name = "npm",
-  package_json = "//:package.json",
-  package_lock_json = "//:package-lock.json",
+  package_json = "//web:package.json",
+  package_lock_json = "//web:package-lock.json",
 )
