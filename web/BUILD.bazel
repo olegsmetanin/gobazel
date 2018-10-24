@@ -7,8 +7,10 @@ ts_library(
     srcs = ["index.tsx"],
     tsconfig = "//:tsconfig.build.json",
     deps = [
-      "//common:src",
-      "//publicapi:publicapi_ts",
+        "//common:src",
+        "//publicapi:publicapi_ts",
+        "@npm//react",
+        "@npm//react-dom",
     ]
 )
 
@@ -17,16 +19,16 @@ load("@build_bazel_rules_typescript//:defs.bzl", "ts_devserver")
 ts_devserver(
     name = "devserver",
     additional_root_paths = [
-        "gobazel/node_modules/react/umd",
-        "gobazel/node_modules/react-dom/umd",
+        "npm/node_modules/react/umd",
+        "npm/node_modules/react-dom/umd",
     ],
     port = 9999,
     serving_path = "/bundle.min.js",
-    # entry_module = "gobazel/src/frontend/main",
+    #entry_module = "gobazel/src/frontend/main",
     deps = [":src"],
     static_files = [
         ":index.html",
-        "//:node_modules/react/umd/react.development.js",
-        "//:node_modules/react-dom/umd/react-dom.development.js"
+        "@npm//node_modules/react:umd/react.development.js",
+        "@npm//node_modules/react-dom:umd/react-dom.development.js"
     ],
 )
