@@ -54,7 +54,9 @@ go_proto_library(
 
 ts_proto_library(
     name = "publicapi_ts_proto",
-    deps = [":publicapi"],
+    deps = [
+        ":publicapi"
+        ],
 )
 
 ts_library(
@@ -62,5 +64,8 @@ ts_library(
     name = "publicapi_ts",
     srcs = glob(["index.ts"]),
     tsconfig = "//:tsconfig.build.json",
-    deps = [":publicapi_ts_proto"]
+    deps = [
+        ":publicapi_ts_proto",
+        "@npm//typescript",
+    ]
 )

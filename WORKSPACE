@@ -2,9 +2,9 @@ workspace(name = "gobazel")
 
 http_archive(
     name = "build_bazel_rules_typescript",
-    sha256 = "1626ee2cc9770af6950bfc77dffa027f9aedf330fe2ea2ee7e504428927bd95d",
-    strip_prefix = "rules_typescript-0.17.0",
-    url = "https://github.com/bazelbuild/rules_typescript/archive/0.17.0.zip",
+    # sha256 = "28c13760f8ca9d2edadda3e707a26bd99bd9e14670eb7e693808458ab1417c25",
+    strip_prefix = "rules_typescript-0.20.3",
+    url = "https://github.com/bazelbuild/rules_typescript/archive/0.20.3.zip",
 )
 
 http_archive(
@@ -138,3 +138,17 @@ ts_setup_workspace()
 load("@grpc_ecosystem_grpc_gateway//:repositories.bzl", "repositories")
 
 repositories()
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "node_repositories", "yarn_install", "npm_install")
+node_repositories()
+
+# Setup Bazel managed npm dependencies with the `yarn_install` rule.
+# The name of this rule should be set to `npm` so that `ts_library` and `ts_web_test_suite`
+# can find your npm dependencies by default in the `@npm` workspace. You may
+# also use the `npm_install` rule with a `package-lock.json` file if you prefer.
+# See https://github.com/bazelbuild/rules_nodejs#dependencies for more info.
+npm_install(
+  name = "npm",
+  package_json = "//:package.json",
+#   yarn_lock = "//:yarn.lock",
+)
