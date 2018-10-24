@@ -8,7 +8,7 @@ ts_library(
     srcs = glob(['*.ts', '*.tsx']),
     tsconfig = "//:tsconfig.build.json",
     deps = [
-"@npm//typescript",
-"@npm//react",
+        "@npm//typescript",
+        "@npm//react",
     ]
 )

@@ -56,7 +56,7 @@ ts_proto_library(
     name = "publicapi_ts_proto",
     deps = [
         ":publicapi"
-        ],
+    ],
 )
 
 ts_library(

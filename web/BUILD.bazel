@@ -7,10 +7,10 @@ ts_library(
     srcs = ["index.tsx"],
     tsconfig = "//:tsconfig.build.json",
     deps = [
-      "//common:src",
-      "//publicapi:publicapi_ts",
-     "@npm//react",
-     "@npm//react-dom",
+        "//common:src",
+        "//publicapi:publicapi_ts",
+        "@npm//react",
+        "@npm//react-dom",
     ]
 )
 

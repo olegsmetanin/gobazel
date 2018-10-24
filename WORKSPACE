@@ -150,5 +150,5 @@ node_repositories()
 npm_install(
   name = "npm",
   package_json = "//:package.json",
-#   yarn_lock = "//:yarn.lock",
+  package_lock_json = "//:package-lock.json",
 )
