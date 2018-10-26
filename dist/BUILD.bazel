@@ -1,0 +1,58 @@
+package(default_visibility = ["//visibility:public"])
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "nodejs_binary")
+
+# nodejs_binary(
+#     name = "web",
+#     visibility = ["//visibility:public"],
+#     entry_point = "gobazel/build/copy.js",
+#     data = [
+#         ":copy.js",
+#         "//web:copy"
+#     ]
+# )
+
+nodejs_binary(
+    name = "copy",
+    visibility = ["//visibility:public"],
+    # entry_point = "gobazel/node_modules/ts-node/dist/bin.js",
+    entry_point = "gobazel/build/copy.js",
+    install_source_map_support = False,
+    # node_modules = "//:node_modules",
+
+    # node_modules = "@npm//:node_modules"
+    data = [
+        ":copy.js"
+        # "//:tsconfig.build.json",
+    ],
+)
+
+
+genrule(
+    name = "build",
+    srcs = [
+        # "//web:copy",
+        ":copy.js",
+        "//web:lib",
+        "//backend/cmd/service:service"
+        # "//publicapi:publicapi"
+
+    ],
+    outs = ["service", "frontend"],
+    cmd = "node dist/copy.js $(location //backend/cmd/service:service) $(location //web:lib) $(@D)",
+    # cmd = "echo \"hello\"; pwd; echo $(location tsnode); $(location tsnode) $(location copy.ts)",
+    # cmd = "$(location tsnode) $(location copy.ts) $(location web)",
+    # cmd = "$(location babel) src  --out-dir $@",
+    tools = [":copy"],
+)
+
+
+genrule(
+    name = "ls",
+    srcs = [
+        "//web:lib",
+    ],
+    outs = ['qwe'],
+
+    cmd = "ls `dirname $(locations //web:lib)`; ls `dirname $(location //web:lib)`; echo qwe > $(location qwe)",
+)

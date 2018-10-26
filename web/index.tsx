@@ -10,7 +10,7 @@ let user: IUser = {
 
 ReactDOM.render(
   <div>
-    <div>This is app</div>
+    <div>This is app!!!!!!</div>
     <Qwe/>
     <div>{JSON.stringify(user)}</div>
   </div>,
